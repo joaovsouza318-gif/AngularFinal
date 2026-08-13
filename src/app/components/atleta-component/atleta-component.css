@@ -1,0 +1,126 @@
+body {
+  background-color: var(--cinza);
+  min-height: 100vh;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#div-form {
+  width: 600px;
+  padding: 30px;
+
+  background-color: var(--branco);
+  border: 3px solid var(--azul);
+  border-radius: 10px;
+}
+
+#form-atleta {
+  display: flex;
+  flex-direction: column;
+}
+
+#form-atleta label {
+  margin-top: 12px;
+  margin-bottom: 5px;
+
+  color: var(--preto);
+  font-weight: bold;
+}
+
+#form-atleta input[type="text"] {
+  width: 100%;
+  height: 40px;
+
+  padding: 8px;
+
+  color: var(--preto);
+  background-color: var(--branco);
+
+  border: 2px solid var(--azul);
+  border-radius: 5px;
+
+  outline: none;
+}
+
+#form-atleta input[type="text"]:focus {
+  border-color: var(--roxo);
+  background-color: var(--ciano);
+}
+
+#form-atleta input::placeholder {
+  color: var(--cinza);
+}
+
+/* Radio buttons */
+.btnSelect {
+  accent-color: var(--azul);
+  margin-right: 5px;
+}
+
+/* Texto dos radios */
+#form-atleta .btnSelect {
+  margin-top: 5px;
+}
+
+/* Área dos botões */
+#div-btns {
+  display: flex;
+  gap: 15px;
+
+  margin-top: 25px;
+}
+
+/* Botões */
+#div-btns button {
+  flex: 1;
+
+  height: 45px;
+
+  border: 2px solid var(--preto);
+  border-radius: 5px;
+
+  font-weight: bold;
+  font-size: 15px;
+
+  cursor: pointer;
+}
+
+/* Cadastrar */
+#btnAdd {
+  background-color: var(--verde);
+  color: var(--branco);
+}
+
+#btnAdd:hover {
+  background-color: var(--azul);
+}
+
+/* Limpar */
+#btnLimpar {
+  background-color: var(--vermelho);
+  color: var(--branco);
+}
+
+#btnLimpar:hover {
+  background-color: var(--laranja);
+}
+
+/* Clique */
+#div-btns button:active {
+  background-color: var(--amarelo);
+  color: var(--preto);
+}
+
+/* Responsivo */
+@media (max-width: 650px) {
+  #div-form {
+    width: 90%;
+    padding: 20px;
+  }
+
+  #div-btns {
+    flex-direction: column;
+  }
+}

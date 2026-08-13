@@ -1,0 +1,119 @@
+#cabecalho {
+  width: 100%;
+  min-height: 80px;
+
+  background-color: var(--vermelho);
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0 40px;
+}
+
+/* Logo */
+#logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: var(--branco);
+  font-size: 22px;
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+#titulo-logo{
+  text-transform: uppercase;
+  color: var(--preto);
+  border: 1px solid var(--preto);
+  padding: 5px;
+  margin: 0px 4px;
+  letter-spacing: 2px;
+}
+
+/* Menu */
+#menu {
+  display: flex;
+  align-items: center;
+}
+
+#menu-ul {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+
+  list-style: none;
+  gap: 5px;
+}
+
+#menu-ul li {
+  display: flex;
+  align-items: center;
+}
+
+/* Links */
+.lnk-menu {
+  display: block;
+
+  color: var(--branco);
+  text-decoration: none;
+
+  font-size: 14px;
+  font-weight: bold;
+
+  padding: 10px 14px;
+
+  border: 2px solid transparent;
+  border-radius: 5px;
+
+  transition: 0.2s;
+}
+
+/* Hover */
+.lnk-menu:hover {
+  color: var(--preto);
+  background-color: var(--branco);
+  border-color: var(--preto);
+
+  opacity: 1;
+}
+
+/* Clique */
+.lnk-menu:active {
+  background-color: var(--amarelo);
+  color: var(--preto);
+}
+
+/* Responsivo */
+@media (max-width: 900px) {
+  #cabecalho {
+    flex-direction: column;
+    gap: 15px;
+
+    padding: 20px;
+  }
+
+  #menu-ul {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 600px) {
+  #menu-ul {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  #menu {
+    width: 100%;
+    justify-content: center;
+  }
+
+  #menu-ul li,
+  .lnk-menu {
+    width: 100%;
+    text-align: center;
+  }
+}

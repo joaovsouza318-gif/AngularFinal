@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { RouterLink } from '../../../../node_modules/@angular/router/types/_router_module-chunk';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-menu-component',

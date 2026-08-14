@@ -10,9 +10,9 @@ body {
 #div-form {
   width: 600px;
   padding: 30px;
-
+  margin: 20px auto;
   background-color: var(--branco);
-  border: 3px solid var(--azul);
+  border: 3px solid var(--preto);
   border-radius: 10px;
 }
 
@@ -38,7 +38,7 @@ body {
   color: var(--preto);
   background-color: var(--branco);
 
-  border: 2px solid var(--azul);
+  border: 2px solid var(--preto);
   border-radius: 5px;
 
   outline: none;
@@ -46,7 +46,6 @@ body {
 
 #form-atleta input[type="text"]:focus {
   border-color: var(--roxo);
-  background-color: var(--ciano);
 }
 
 #form-atleta input::placeholder {

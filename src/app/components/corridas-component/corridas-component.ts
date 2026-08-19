@@ -11,21 +11,24 @@ import { Corrida } from '../../models/corrida-model';
 })
 export class CorridasComponent {
   descricao = '';
-  data = null;
+  data = '';
   niveis = '';
 
   constructor(private corridaService: CorridaService) {}
 
-  exibirDados(){
-    console.log(this.descricao,this.data,this.niveis)
-  }
-
   salvarCorrida(){
     const novaCorrida = new Corrida();
     novaCorrida.descricao = this.descricao;
-    novaCorrida.data = this.data;
+    novaCorrida.data = this.data ? new Date(`${this.data}T00:00:00`) : null;
     novaCorrida.niveis = this.niveis;
 
-    this.corridaService.adicionar(novaCorrida)
+    this.corridaService.adicionar(novaCorrida);
+    this.limparFormulario();
+  }
+
+  limparFormulario() {
+    this.descricao = '';
+    this.data = '';
+    this.niveis = '';
   }
 }

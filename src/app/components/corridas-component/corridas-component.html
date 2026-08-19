@@ -1,5 +1,5 @@
 <div id="div-form">
-  <form id="form-corrida">
+  <form id="form-corrida" (ngSubmit)="salvarCorrida()">
 
     <label for="descricao">Descrição: </label>
     <input type="text" id="descricao" name="descricao" class="input01" required placeholder="Ex: Maratona da Meia-noite..." [(ngModel)]="descricao">
@@ -8,13 +8,14 @@
     <input type="date" id="data" name="data" class="input01" required [(ngModel)]="data">
 
     <label for="niveis">Modalidade escolhida</label>
-    <input type="radio" name="niveis" id="5" value="5" [(ngModel)]="niveis"> 5 Km
+    <input type="radio" name="niveis" id="5" value="5" [(ngModel)]="niveis" required> 5 Km
     <input type="radio" name="niveis" id="10" value="10" [(ngModel)]="niveis"> 10 Km
     <input type="radio" name="niveis" id="15" value="15" [(ngModel)]="niveis"> 15 Km
     <input type="radio" name="niveis" id="21" value="21" [(ngModel)]="niveis"> 21 Km
 
     <div id="div-btns">
-      <button type="button" id="btnAdd" (click)="exibirDados()"> Cadastrar Corrida </button>
+      <button type="submit" id="btnAdd">Cadastrar Corrida</button>
+      <button type="button" id="btnLimpar" (click)="limparFormulario()">Limpar Dados</button>
     </div>
   </form>
 </div>

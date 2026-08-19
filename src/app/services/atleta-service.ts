@@ -9,13 +9,13 @@ export class AtletaService {
     private atletas : Pessoa[] = [];
     
     adicionar(pessoa: Pessoa) {
-        pessoa.idPessoa = this.atletas.length + 1;
+        const ultimoId = this.atletas.at(-1)?.idPessoa ?? 0;
+        pessoa.idPessoa = ultimoId + 1;
         this.atletas.push(pessoa);
     }
 
     listar(): Pessoa[] {
-        console.table(this.atletas);
-        return this.atletas;
+        return [...this.atletas];
     }
 
     private localizar(idAtleta: number){

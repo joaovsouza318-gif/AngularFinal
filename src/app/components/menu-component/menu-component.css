@@ -1,13 +1,10 @@
 #cabecalho {
   width: 100%;
   min-height: 80px;
-
   background-color: var(--vermelho);
-
   display: flex;
   align-items: center;
   justify-content: space-between;
-
   padding: 0 40px;
 }
 
@@ -16,7 +13,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-
   color: var(--branco);
   font-size: 22px;
   font-weight: bold;
@@ -42,7 +38,6 @@
   display: flex;
   align-items: center;
   justify-content: flex-end;
-
   list-style: none;
   gap: 5px;
 }
@@ -55,18 +50,13 @@
 /* Links */
 .lnk-menu {
   display: block;
-
   color: var(--branco);
   text-decoration: none;
-
   font-size: 14px;
   font-weight: bold;
-
   padding: 10px 14px;
-
   border: 2px solid transparent;
   border-radius: 5px;
-
   transition: 0.2s;
 }
 
@@ -75,7 +65,6 @@
   color: var(--preto);
   background-color: var(--branco);
   border-color: var(--preto);
-
   opacity: 1;
 }
 
@@ -90,7 +79,6 @@
   #cabecalho {
     flex-direction: column;
     gap: 15px;
-
     padding: 20px;
   }
 

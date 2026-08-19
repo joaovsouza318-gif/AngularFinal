@@ -1,0 +1,50 @@
+<section class="inscricoes">
+  <h1>Inscrição do atleta</h1>
+
+  @if (atletas.length === 0 || corridas.length === 0) {
+    <p class="aviso">Cadastre pelo menos um atleta e uma corrida antes de realizar a inscrição.</p>
+  } @else {
+    <form (ngSubmit)="salvarInscricao()">
+      <label for="atleta">Atleta</label>
+      <select id="atleta" name="atleta" [(ngModel)]="idAtleta" required>
+        <option [ngValue]="null" disabled>Selecione um atleta</option>
+        @for (atleta of atletas; track atleta.idPessoa) {
+          <option [ngValue]="atleta.idPessoa">{{ atleta.nome }}</option>
+        }
+      </select>
+
+      <label for="corrida">Corrida</label>
+      <select id="corrida" name="corrida" [(ngModel)]="idCorrida" required>
+        <option [ngValue]="null" disabled>Selecione uma corrida</option>
+        @for (corrida of corridas; track corrida.idCorrida) {
+          <option [ngValue]="corrida.idCorrida">{{ corrida.descricao }} — {{ corrida.niveis }} Km</option>
+        }
+      </select>
+
+      <button type="submit">Realizar inscrição</button>
+    </form>
+  }
+
+  <h2>Inscrições realizadas</h2>
+  @if (inscricoes.length === 0) {
+    <p class="aviso">Nenhuma inscrição realizada até o momento.</p>
+  } @else {
+    <div class="tabela-responsiva">
+      <table>
+        <thead>
+          <tr><th>Atleta</th><th>Corrida</th><th>Data</th><th>Modalidade</th></tr>
+        </thead>
+        <tbody>
+          @for (inscricao of inscricoes; track inscricao.id) {
+            <tr>
+              <td>{{ inscricao.atleta }}</td>
+              <td>{{ inscricao.corrida }}</td>
+              <td>{{ inscricao.data | date: 'dd/MM/yyyy' }}</td>
+              <td>{{ inscricao.modalidade }} Km</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</section>

@@ -1,38 +1,32 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { Corrida } from './../models/corrida-model';
 
 @Injectable({
     providedIn: 'root'
 })
-
 export class CorridaService {
-    private listaCorridas : Corrida[] = [];
+    private apiUrl = 'https://6a8629109c451dc67a646a59.mockapi.io/Corridas';
 
-    adicionar(corrida: Corrida) {
-        const ultimoId = this.listaCorridas.at(-1)?.idCorrida ?? 0;
-        corrida.idCorrida = ultimoId + 1;
-        this.listaCorridas.push(corrida);
+    constructor(private http: HttpClient) {}
+
+    adicionar(corrida: Corrida): Observable<Corrida> {
+        return this.http.post<Corrida>(this.apiUrl, corrida);
     }
 
-    listar(): Corrida[] {
-        return [...this.listaCorridas];
+    listar(): Observable<Corrida[]> {
+      return this.http.get<any[]>(this.apiUrl).pipe(
+          map(lista => lista.map(item => ({ ...item, idCorrida: Number(item.idCorrida) })))
+      );
+  }
+
+    remover(idCorrida: number): Observable<void> {
+        return this.http.delete<void>(`${this.apiUrl}/${idCorrida}`);
     }
 
-    private localizar(idCorridas: number){
-        return this.listaCorridas.findIndex(elem => elem.idCorrida === idCorridas);
-    }
-
-    remover(idCorrida: number) {
-        const posicao = this.localizar(idCorrida);
-        if (posicao >= 0) {
-            this.listaCorridas.splice(posicao, 1);
-        }
-    }
-
-    alterar(corrida: Corrida) {
-        const posicao = this.localizar(corrida.idCorrida);
-        if (posicao >= 0) {
-            this.listaCorridas[posicao] = corrida;
-        }
+    alterar(corrida: Corrida): Observable<Corrida> {
+        return this.http.put<Corrida>(`${this.apiUrl}/${corrida.idCorrida}`, corrida);
     }
 }

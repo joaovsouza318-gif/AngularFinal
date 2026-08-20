@@ -1,39 +1,32 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { Pessoa } from '../models/pessoa-model';
 
 @Injectable({
     providedIn: 'root'
 })
-
 export class AtletaService {
-    private atletas : Pessoa[] = [];
-    
-    adicionar(pessoa: Pessoa) {
-        const ultimoId = this.atletas.at(-1)?.idPessoa ?? 0;
-        pessoa.idPessoa = ultimoId + 1;
-        this.atletas.push(pessoa);
+    private apiUrl = 'https://6a8629109c451dc67a646a59.mockapi.io/Atletas';
+
+    constructor(private http: HttpClient) {}
+
+    adicionar(pessoa: Pessoa): Observable<Pessoa> {
+        return this.http.post<Pessoa>(this.apiUrl, pessoa);
     }
 
-    listar(): Pessoa[] {
-        return [...this.atletas];
+    listar(): Observable<Pessoa[]> {
+      return this.http.get<any[]>(this.apiUrl).pipe(
+          map(lista => lista.map(item => ({ ...item, idPessoa: Number(item.idPessoa) })))
+      );
+  }
+
+    remover(idPessoa: number): Observable<void> {
+        return this.http.delete<void>(`${this.apiUrl}/${idPessoa}`);
     }
 
-    private localizar(idAtleta: number){
-        return this.atletas.findIndex(elem => elem.idPessoa === idAtleta);
-    }
-
-    remover (posicaoArray: number) {
-        this.atletas.splice(1,posicaoArray);
-    }
-
-    remover2 (pessoa: Pessoa) {
-        this.atletas.filter(elem => elem.idPessoa === pessoa.idPessoa);
-    }
-
-    alterar(pessoa: Pessoa) {
-        const posicao = this.localizar(pessoa.idPessoa);
-        if (posicao >= 0) {
-            this.atletas[posicao] = pessoa;
-        }
+    alterar(pessoa: Pessoa): Observable<Pessoa> {
+        return this.http.put<Pessoa>(`${this.apiUrl}/${pessoa.idPessoa}`, pessoa);
     }
 }

@@ -22,9 +22,10 @@ export class CorridasComponent {
     novaCorrida.data = this.data ? new Date(`${this.data}T00:00:00`) : null;
     novaCorrida.niveis = this.niveis;
 
-    this.corridaService.adicionar(novaCorrida);
-    this.limparFormulario();
-  }
+    this.corridaService.adicionar(novaCorrida).subscribe(() => {
+      this.limparFormulario();
+    });
+}
 
   limparFormulario() {
     this.descricao = '';

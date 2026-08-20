@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { forkJoin } from 'rxjs';
 import { Corrida } from '../../models/corrida-model';
 import { Inscricao } from '../../models/inscricao-model';
 import { Pessoa } from '../../models/pessoa-model';
@@ -36,9 +37,14 @@ export class InscricaoComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.atletas = this.atletaService.listar();
-    this.corridas = this.corridaService.listar();
-    this.atualizarInscricoes();
+    forkJoin({
+      atletas: this.atletaService.listar(),
+      corridas: this.corridaService.listar(),
+    }).subscribe(({ atletas, corridas }) => {
+      this.atletas = atletas;
+      this.corridas = corridas;
+      this.atualizarInscricoes();
+    });
   }
 
   salvarInscricao() {

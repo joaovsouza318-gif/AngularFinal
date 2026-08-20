@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { Corrida } from '../../models/corrida-model';
 import { CorridaService } from '../../services/corrida-service';
 
@@ -10,7 +10,7 @@ import { CorridaService } from '../../services/corrida-service';
   styleUrl: './listar-corridas-component.css',
 })
 export class ListarCorridasComponent implements OnInit {
-  corridas: Corrida[] = [];
+  corridas = signal<Corrida[]>([]);
 
   constructor(private corridaService: CorridaService) {}
 
@@ -19,11 +19,14 @@ export class ListarCorridasComponent implements OnInit {
   }
 
   removerCorrida(idCorrida: number) {
-    this.corridaService.remover(idCorrida);
-    this.atualizarLista();
+    this.corridaService.remover(idCorrida).subscribe(() => {
+      this.atualizarLista();
+    });
   }
 
   private atualizarLista() {
-    this.corridas = this.corridaService.listar();
+    this.corridaService.listar().subscribe(dados => {
+      this.corridas.set(dados);
+    });
   }
 }

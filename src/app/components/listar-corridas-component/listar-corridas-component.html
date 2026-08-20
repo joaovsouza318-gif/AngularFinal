@@ -1,7 +1,7 @@
 <section class="lista-corridas">
   <h1>Corridas cadastradas</h1>
 
-  @if (corridas.length === 0) {
+  @if (corridas().length === 0) {
     <p class="mensagem-vazia">Nenhuma corrida cadastrada até o momento.</p>
   } @else {
     <div class="tabela-responsiva">
@@ -15,7 +15,7 @@
           </tr>
         </thead>
         <tbody>
-          @for (corrida of corridas; track corrida.idCorrida) {
+          @for (corrida of corridas(); track corrida.idCorrida) {
             <tr>
               <td>{{ corrida.descricao }}</td>
               <td>{{ corrida.data | date: 'dd/MM/yyyy' }}</td>

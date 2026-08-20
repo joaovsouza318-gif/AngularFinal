@@ -36,6 +36,6 @@ export class AtletaComponent {
     pessoaAtleta.cidade = this.cidade;
     pessoaAtleta.uf = this.uf;
 
-    this.atletaService.adicionar(pessoaAtleta)
-  }
+    this.atletaService.adicionar(pessoaAtleta).subscribe();
+}
 }

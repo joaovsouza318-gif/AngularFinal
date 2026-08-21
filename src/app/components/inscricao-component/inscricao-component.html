@@ -8,8 +8,8 @@
       <label for="atleta">Atleta</label>
       <select id="atleta" name="atleta" [(ngModel)]="idAtleta" required>
         <option [ngValue]="null" disabled>Selecione um atleta</option>
-        @for (atleta of atletas(); track atleta.idPessoa) {
-          <option [ngValue]="atleta.idPessoa">{{ atleta.nome }}</option>
+        @for (atleta of atletas(); track atleta.idAtleta) {
+          <option [ngValue]="atleta.idAtleta">{{ atleta.nome }}</option>
         }
       </select>
 

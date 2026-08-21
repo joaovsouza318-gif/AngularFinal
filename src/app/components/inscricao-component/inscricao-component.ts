@@ -69,7 +69,7 @@ export class InscricaoComponent implements OnInit {
 
     this.inscricaoService.listar().subscribe(inscricoes => {
       const lista = inscricoes.flatMap((inscricao) => {
-        const atleta = atletas.find((item) => item.idPessoa === inscricao.idAtleta);
+        const atleta = atletas.find((item) => item.idAtleta === inscricao.idAtleta);
         const corrida = corridas.find((item) => item.idCorrida === inscricao.idCorrida);
 
         if (!atleta || !corrida) {

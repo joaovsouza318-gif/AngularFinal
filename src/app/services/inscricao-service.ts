@@ -8,7 +8,7 @@ import { Inscricao } from '../models/inscricao-model';
   providedIn: 'root',
 })
 export class InscricaoService {
-  private apiUrl = 'https://6a87994270fbbd308f990dc5.mockapi.io/inscricao';
+  private apiUrl = 'https://6a87994270fbbd308f990dc5.mockapi.io/inscricaoT';
 
   constructor(private http: HttpClient) {}
 

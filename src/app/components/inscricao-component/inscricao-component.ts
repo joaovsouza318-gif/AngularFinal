@@ -55,33 +55,37 @@ export class InscricaoComponent implements OnInit {
     const inscricao = new Inscricao();
     inscricao.idAtleta = this.idAtleta;
     inscricao.idCorrida = this.idCorrida;
-    this.inscricaoService.adicionar(inscricao);
-    this.idAtleta = null;
-    this.idCorrida = null;
-    this.atualizarInscricoes();
+
+    this.inscricaoService.adicionar(inscricao).subscribe(() => {
+      this.idAtleta = null;
+      this.idCorrida = null;
+      this.atualizarInscricoes();
+    });
   }
 
   private atualizarInscricoes() {
     const atletas = this.atletas();
     const corridas = this.corridas();
 
-    const lista = this.inscricaoService.listar().flatMap((inscricao) => {
-      const atleta = atletas.find((item) => item.idPessoa === inscricao.idAtleta);
-      const corrida = corridas.find((item) => item.idCorrida === inscricao.idCorrida);
+    this.inscricaoService.listar().subscribe(inscricoes => {
+      const lista = inscricoes.flatMap((inscricao) => {
+        const atleta = atletas.find((item) => item.idPessoa === inscricao.idAtleta);
+        const corrida = corridas.find((item) => item.idCorrida === inscricao.idCorrida);
 
-      if (!atleta || !corrida) {
-        return [];
-      }
+        if (!atleta || !corrida) {
+          return [];
+        }
 
-      return [{
-        id: inscricao.idInscricao,
-        atleta: atleta.nome,
-        corrida: corrida.descricao,
-        data: corrida.data,
-        modalidade: corrida.niveis,
-      }];
+        return [{
+          id: inscricao.idInscricao,
+          atleta: atleta.nome,
+          corrida: corrida.descricao,
+          data: corrida.data,
+          modalidade: corrida.niveis,
+        }];
+      });
+
+      this.inscricoes.set(lista);
     });
-
-    this.inscricoes.set(lista);
   }
 }

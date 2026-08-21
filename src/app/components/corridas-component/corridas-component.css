@@ -21,6 +21,12 @@ body {
   flex-direction: column;
 }
 
+#titulo-form {
+  margin-bottom: 15px;
+  color: var(--preto);
+  text-align: center;
+}
+
 #form-corrida label {
   margin-top: 12px;
   margin-bottom: 5px;
@@ -96,13 +102,15 @@ body {
   background-color: var(--azul);
 }
 
-/* Limpar */
-#btnLimpar {
+/* Limpar / Cancelar */
+#btnLimpar,
+#btnCancelar {
   background-color: var(--vermelho);
   color: var(--branco);
 }
 
-#btnLimpar:hover {
+#btnLimpar:hover,
+#btnCancelar:hover {
   background-color: var(--laranja);
 }
 

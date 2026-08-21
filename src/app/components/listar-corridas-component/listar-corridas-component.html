@@ -20,7 +20,12 @@
               <td>{{ corrida.descricao }}</td>
               <td>{{ corrida.data | date: 'dd/MM/yyyy' }}</td>
               <td>{{ corrida.niveis }} Km</td>
-              <td><button type="button" (click)="removerCorrida(corrida.idCorrida)">Remover</button></td>
+              <td>
+                <div class="acoes">
+                  <button type="button" class="btn-editar" (click)="editarCorrida(corrida.idCorrida)">Editar</button>
+                  <button type="button" class="btn-remover" (click)="removerCorrida(corrida.idCorrida)">Remover</button>
+                </div>
+              </td>
             </tr>
           }
         </tbody>

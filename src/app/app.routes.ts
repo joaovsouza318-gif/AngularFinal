@@ -10,6 +10,7 @@ export const routes: Routes = [
   {path:"home", component:HomeComponent},
   {path:"cadastroAtleta", component:AtletaComponent},
   {path:"cadastroCorrida", component:CorridasComponent},
+  {path:"cadastroCorrida/:id", component:CorridasComponent},
   {path:"listarCorridas", component:ListarCorridasComponent},
   {path:"inscrevaSe", component:InscricaoComponent}
 ];

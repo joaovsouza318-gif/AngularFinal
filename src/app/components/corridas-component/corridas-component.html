@@ -1,6 +1,8 @@
 <div id="div-form">
   <form id="form-corrida" (ngSubmit)="salvarCorrida()">
 
+    <h2 id="titulo-form">{{ modoEdicao ? 'Editar Corrida' : 'Cadastrar Corrida' }}</h2>
+
     <label for="descricao">Descrição: </label>
     <input type="text" id="descricao" name="descricao" class="input01" required placeholder="Ex: Maratona da Meia-noite..." [(ngModel)]="descricao">
 
@@ -14,8 +16,12 @@
     <input type="radio" name="niveis" id="21" value="21" [(ngModel)]="niveis"> 21 Km
 
     <div id="div-btns">
-      <button type="submit" id="btnAdd">Cadastrar Corrida</button>
-      <button type="button" id="btnLimpar" (click)="limparFormulario()">Limpar Dados</button>
+      <button type="submit" id="btnAdd">{{ modoEdicao ? 'Atualizar Corrida' : 'Cadastrar Corrida' }}</button>
+      @if (modoEdicao) {
+        <button type="button" id="btnCancelar" (click)="cancelarEdicao()">Cancelar</button>
+      } @else {
+        <button type="button" id="btnLimpar" (click)="limparFormulario()">Limpar Dados</button>
+      }
     </div>
   </form>
 </div>

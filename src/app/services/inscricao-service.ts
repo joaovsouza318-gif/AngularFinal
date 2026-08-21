@@ -6,6 +6,7 @@ import { Inscricao } from '../models/inscricao-model';
 })
 export class InscricaoService {
   private inscricoes: Inscricao[] = [];
+  private url = 'https://6a87994270fbbd308f990dc5.mockapi.io/inscricao'
 
   adicionar(inscricao: Inscricao) {
     const ultimoId = this.inscricoes.at(-1)?.idInscricao ?? 0;

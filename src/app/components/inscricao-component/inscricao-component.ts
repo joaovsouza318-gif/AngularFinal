@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { forkJoin } from 'rxjs';
 import { Corrida } from '../../models/corrida-model';
@@ -24,9 +24,9 @@ interface InscricaoExibicao {
   styleUrl: './inscricao-component.css',
 })
 export class InscricaoComponent implements OnInit {
-  atletas: Pessoa[] = [];
-  corridas: Corrida[] = [];
-  inscricoes: InscricaoExibicao[] = [];
+  atletas = signal<Pessoa[]>([]);
+  corridas = signal<Corrida[]>([]);
+  inscricoes = signal<InscricaoExibicao[]>([]);
   idAtleta: number | null = null;
   idCorrida: number | null = null;
 
@@ -41,8 +41,8 @@ export class InscricaoComponent implements OnInit {
       atletas: this.atletaService.listar(),
       corridas: this.corridaService.listar(),
     }).subscribe(({ atletas, corridas }) => {
-      this.atletas = atletas;
-      this.corridas = corridas;
+      this.atletas.set(atletas);
+      this.corridas.set(corridas);
       this.atualizarInscricoes();
     });
   }
@@ -62,9 +62,12 @@ export class InscricaoComponent implements OnInit {
   }
 
   private atualizarInscricoes() {
-    this.inscricoes = this.inscricaoService.listar().flatMap((inscricao) => {
-      const atleta = this.atletas.find((item) => item.idPessoa === inscricao.idAtleta);
-      const corrida = this.corridas.find((item) => item.idCorrida === inscricao.idCorrida);
+    const atletas = this.atletas();
+    const corridas = this.corridas();
+
+    const lista = this.inscricaoService.listar().flatMap((inscricao) => {
+      const atleta = atletas.find((item) => item.idPessoa === inscricao.idAtleta);
+      const corrida = corridas.find((item) => item.idCorrida === inscricao.idCorrida);
 
       if (!atleta || !corrida) {
         return [];
@@ -78,5 +81,7 @@ export class InscricaoComponent implements OnInit {
         modalidade: corrida.niveis,
       }];
     });
+
+    this.inscricoes.set(lista);
   }
 }

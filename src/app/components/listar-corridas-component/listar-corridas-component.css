@@ -39,6 +39,12 @@ th {
   color: var(--branco);
 }
 
+.acoes {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
 button {
   padding: 8px 12px;
   color: var(--branco);
@@ -51,4 +57,12 @@ button {
 button:hover {
   background: var(--laranja);
   color: var(--preto);
+}
+
+.btn-editar {
+  background: var(--azul);
+}
+
+.btn-editar:hover {
+  background: var(--roxo);
 }

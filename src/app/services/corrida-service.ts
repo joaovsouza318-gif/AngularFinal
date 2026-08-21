@@ -22,6 +22,12 @@ export class CorridaService {
       );
   }
 
+    buscarPorId(idCorrida: number): Observable<Corrida> {
+        return this.http.get<any>(`${this.apiUrl}/${idCorrida}`).pipe(
+            map(item => ({ ...item, idCorrida: Number(item.idCorrida) }))
+        );
+    }
+
     remover(idCorrida: number): Observable<void> {
         return this.http.delete<void>(`${this.apiUrl}/${idCorrida}`);
     }

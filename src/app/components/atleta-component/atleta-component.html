@@ -7,10 +7,21 @@
     <label for="cpf">CPF: </label>
     <input type="text" id="cpf" name="cpf" class="input02" required maxlength="11" placeholder="Informe seu nome..." [(ngModel)]="cpf">
 
-    <label for="sexo">Sexo: </label>
-    <input type="radio" id="sexoM" name="sexo" class="btnSelect" value="M" [(ngModel)]="sexo"> Masculino
-    <input type="radio" id="sexoF" name="sexo" class="btnSelect" value="F" [(ngModel)]="sexo"> Feminino
-    <input type="radio" id="sexoN" name="sexo" class="btnSelect" value="N" [(ngModel)]="sexo"> Não Informado
+    <label>Sexo: </label>
+    <div class="grupo-radios">
+      <label class="radio-opcao" for="sexoM">
+        <input type="radio" id="sexoM" name="sexo" class="btnSelect" value="M" [(ngModel)]="sexo"> Masculino
+      </label>
+      <label class="radio-opcao" for="sexoF">
+        <input type="radio" id="sexoF" name="sexo" class="btnSelect" value="F" [(ngModel)]="sexo"> Feminino
+      </label>
+      <label class="radio-opcao" for="sexoN">
+        <input type="radio" id="sexoN" name="sexo" class="btnSelect" value="N" [(ngModel)]="sexo"> Não Informado
+      </label>
+    </div>
+
+    <label for="dataNascimento">Data de nascimento: </label>
+    <input type="date" id="dataNascimento" name="dataNascimento" required [(ngModel)]="dataNascimento">
 
     <label for="cep">CEP</label>
     <input type="text" name="cep" id="cep" class="input01" [(ngModel)]="cep" >

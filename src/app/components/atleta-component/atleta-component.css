@@ -29,7 +29,8 @@ body {
   font-weight: bold;
 }
 
-#form-atleta input[type="text"] {
+#form-atleta input[type="text"],
+#form-atleta input[type="date"] {
   width: 100%;
   height: 40px;
 
@@ -44,7 +45,8 @@ body {
   outline: none;
 }
 
-#form-atleta input[type="text"]:focus {
+#form-atleta input[type="text"]:focus,
+#form-atleta input[type="date"]:focus {
   border-color: var(--roxo);
 }
 
@@ -53,14 +55,26 @@ body {
 }
 
 /* Radio buttons */
-.btnSelect {
-  accent-color: var(--azul);
-  margin-right: 5px;
+.grupo-radios {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  flex-wrap: wrap;
+  margin: 4px 0 6px;
 }
 
-/* Texto dos radios */
-#form-atleta .btnSelect {
-  margin-top: 5px;
+.radio-opcao {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin: 0 !important;
+  font-weight: normal !important;
+  cursor: pointer;
+}
+
+.btnSelect {
+  accent-color: var(--azul);
+  margin: 0;
 }
 
 /* Área dos botões */
@@ -117,6 +131,10 @@ body {
   #div-form {
     width: 90%;
     padding: 20px;
+  }
+
+  .grupo-radios {
+    gap: 10px 14px;
   }
 
   #div-btns {

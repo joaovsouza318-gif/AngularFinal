@@ -4,6 +4,7 @@ export class Pessoa {
     nome: string = '';
     cpf: string = '';
     sexo: string = '';
+    dataNascimento: string = '';
     cep: number = 0;
     rua: string = '';
     bairro: string = '';

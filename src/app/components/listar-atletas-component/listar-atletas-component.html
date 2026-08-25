@@ -1,0 +1,67 @@
+<section class="lista-atletas">
+  <h1>Atletas cadastrados</h1>
+
+  @if (atletas().length === 0) {
+    <p class="mensagem-vazia">Nenhum atleta cadastrado até o momento.</p>
+  } @else {
+    <div class="tabela-responsiva">
+      <table>
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>CPF</th>
+            <th>Sexo</th>
+            <th>Idade</th>
+            <th>Cidade</th>
+            <th>UF</th>
+            <th>Ação</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          @for (atleta of atletas(); track atleta.idAtleta) {
+            <tr>
+              <td>{{ atleta.nome }}</td>
+
+              <td>{{ atleta.cpf }}</td>
+
+              <td>
+                @switch (atleta.sexo) {
+                  @case ('M') {
+                    Masculino
+                  }
+
+                  @case ('F') {
+                    Feminino
+                  }
+
+                  @default {
+                    Não informado
+                  }
+                }
+              </td>
+
+              <td>
+                {{ calcularIdade(atleta.dataNascimento) }} anos
+              </td>
+
+              <td>{{ atleta.cidade }}</td>
+
+              <td>{{ atleta.uf }}</td>
+
+              <td>
+                <button
+                  type="button"
+                  class="btn-remover"
+                  (click)="removerAtleta(atleta.idAtleta)"
+                >
+                  Remover
+                </button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</section>

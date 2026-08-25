@@ -1,0 +1,65 @@
+.lista-atletas {
+  width: min(1100px, 92%);
+  margin: 32px auto;
+  padding: 28px;
+  background: var(--branco);
+  border: 3px solid var(--preto);
+  border-radius: 10px;
+}
+
+h1 {
+  margin-bottom: 22px;
+  color: var(--preto);
+}
+
+.mensagem-vazia {
+  padding: 20px;
+  color: var(--cinza);
+  text-align: center;
+}
+
+.tabela-responsiva {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  padding: 14px;
+  border: 1px solid var(--preto);
+  text-align: left;
+}
+
+th {
+  background: var(--azul);
+  color: var(--branco);
+}
+
+tbody tr:nth-child(even) {
+  background: #f3f3f3;
+}
+
+tbody tr:hover {
+  background: #e8e8e8;
+}
+
+button {
+  padding: 8px 12px;
+  color: var(--branco);
+  background: var(--vermelho);
+  border: 0;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: var(--laranja);
+  color: var(--preto);
+}
+
+@media (max-width: 700px) {
+  .lista-atletas {

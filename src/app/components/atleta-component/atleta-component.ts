@@ -13,6 +13,7 @@ export class AtletaComponent {
   nome = '';
   cpf = '';
   sexo = '';
+  dataNascimento = '';
   cep = '';
   rua = '';
   bairro = '';
@@ -30,6 +31,7 @@ export class AtletaComponent {
     pessoaAtleta.nome = this.nome;
     pessoaAtleta.cpf = this.cpf;
     pessoaAtleta.sexo = this.sexo;
+    pessoaAtleta.dataNascimento = this.dataNascimento;
     pessoaAtleta.cep = Number(this.cep);
     pessoaAtleta.rua = this.rua;
     pessoaAtleta.bairro = this.bairro;

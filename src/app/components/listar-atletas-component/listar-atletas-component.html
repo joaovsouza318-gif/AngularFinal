@@ -19,7 +19,7 @@
         </thead>
 
         <tbody>
-          @for (atleta of atletas(); track atleta.idAtleta) {
+          @for (atleta of atletas(); track atleta.id) {
             <tr>
               <td>{{ atleta.nome }}</td>
 
@@ -42,7 +42,7 @@
               </td>
 
               <td>
-                {{ calcularIdade(atleta.dataNascimento) }} anos
+                {{ calcularIdade(atleta.data_nascimento) }} anos
               </td>
 
               <td>{{ atleta.cidade }}</td>
@@ -53,7 +53,7 @@
                 <button
                   type="button"
                   class="btn-remover"
-                  (click)="removerAtleta(atleta.idAtleta)"
+                  (click)="removerAtleta(atleta.id)"
                 >
                   Remover
                 </button>

@@ -1,0 +1,210 @@
+diff --git a/src/app/component/atleta-component/atleta-component.html b/src/app/component/atleta-component/atleta-component.html
+index 0f7b565..82f0c6e 100644
+--- a/src/app/component/atleta-component/atleta-component.html
++++ b/src/app/component/atleta-component/atleta-component.html
+@@ -11,6 +11,9 @@
+     <input type="radio" id="sexoF" name="sexo" [(ngModel)]="sexo" class="btnSelecao" value="F" required/> Feminino
+     <input type="radio" id="sexoN" name="sexo" [(ngModel)]="sexo" class="btnSelecao" value="N" required/> Não declarar
+ 
++    <label for="dataNascimento"> Data de nascimento: </label>
++    <input type="date" id="dataNascimento" name="dataNascimento" [(ngModel)]="dataNascimento" class="input01" required/>
++
+     <label for="cep"> CEP: </label>
+     <!-- (blur) dispara a busca assim que o usuário sai do campo, preenchendo o resto do endereço -->
+     <input type="text" id="cep" name="cep" [(ngModel)]="cep" (blur)="buscarCep()" class="input02" placeholder="Digite seu CEP" required maxlength="9"/>
+@@ -24,9 +27,6 @@
+     <label for="cidade"> Cidade: </label>
+     <input type="text" id="cidade" name="cidade" [(ngModel)]="cidade" class="input02" placeholder="Digite sua cidade" required maxlength="30"/>
+ 
+-    <label for="estado"> Estado: </label>
+-    <input type="text" id="estado" name="estado" [(ngModel)]="estado" class="input02" placeholder="Digite seu estado" required maxlength="30"/>
+-
+     <label for="uf"> UF: </label>
+     <input type="text" id="uf" name="uf" [(ngModel)]="uf" class="input02" placeholder="Digite sua UF" required maxlength="2"/>
+ 
+@@ -38,4 +38,4 @@
+ 
+   </form>
+ 
+-</div>
+\ No newline at end of file
++</div>
+diff --git a/src/app/component/atleta-component/atleta-component.ts b/src/app/component/atleta-component/atleta-component.ts
+index 4422d50..675f9e7 100644
+--- a/src/app/component/atleta-component/atleta-component.ts
++++ b/src/app/component/atleta-component/atleta-component.ts
+@@ -16,11 +16,11 @@ export class AtletaComponent {
+   nome = '';
+   cpf = '';
+   sexo = '';
++  dataNascimento = '';
+   cep = '';
+   ruaLogradouro = '';
+   bairro = '';
+   cidade = '';
+-  estado = '';
+   uf = '';
+ 
+   //declaração do construtor
+@@ -44,26 +44,25 @@ export class AtletaComponent {
+         this.bairro = endereco.bairro;
+         this.cidade = endereco.localidade;
+         this.uf = endereco.uf;
+-        this.estado = endereco.uf; //o viacep não devolve o nome completo do estado, só a sigla
+       }
+     });
+   }
+ 
+   //declaração de funções
+   exibirDados() {
+-    console.log(this.nome, this.cpf, this.sexo, this.cep, this.ruaLogradouro, this.bairro, this.cidade, this.estado, this.uf);
++    console.log(this.nome, this.cpf, this.sexo, this.dataNascimento, this.cep, this.ruaLogradouro, this.bairro, this.cidade, this.uf);
+   }
+ 
+   salvarAtleta(){
+     const pessoaAtleta = new Pessoa()
+     pessoaAtleta.nome = this.nome
+-    pessoaAtleta.cpf = this.cpf
++    pessoaAtleta.cpf = this.cpf.replace(/\D/g, '')
+     pessoaAtleta.sexo = this.sexo
+-    pessoaAtleta.cep = this.cep
+-    pessoaAtleta.ruaLogradouro = this.ruaLogradouro
++    pessoaAtleta.data_nascimento = this.dataNascimento
++    pessoaAtleta.cep = Number(this.cep.replace(/\D/g, ''))
++    pessoaAtleta.rua_logradouro = this.ruaLogradouro
+     pessoaAtleta.bairro = this.bairro
+     pessoaAtleta.cidade = this.cidade
+-    pessoaAtleta.estado = this.estado
+     pessoaAtleta.uf = this.uf
+ 
+     this.atletaService.adicionar(pessoaAtleta).subscribe(() => {
+@@ -75,12 +74,12 @@ export class AtletaComponent {
+     this.nome = '';
+     this.cpf = '';
+     this.sexo = '';
++    this.dataNascimento = '';
+     this.cep = '';
+     this.ruaLogradouro = '';
+     this.bairro = '';
+     this.cidade = '';
+-    this.estado = '';
+     this.uf = '';
+   }
+ 
+-}
+\ No newline at end of file
++}
+diff --git a/src/app/component/inscricao-component/inscricao-component.html b/src/app/component/inscricao-component/inscricao-component.html
+index 3aa1578..158c000 100644
+--- a/src/app/component/inscricao-component/inscricao-component.html
++++ b/src/app/component/inscricao-component/inscricao-component.html
+@@ -12,8 +12,8 @@
+       <label for="atleta"> Atleta Cadastrado: </label>
+       <select name="atleta" id="atleta" [(ngModel)]="idAtleta" required>
+         <option [ngValue]="null" disabled> Selecione o atleta (ou digite o CPF) </option>
+-        @for (atleta of atletas(); track atleta.idPessoa) {
+-          <option [ngValue]="atleta.idPessoa"> {{ atleta.nome }} </option>
++        @for (atleta of atletas(); track atleta.id) {
++          <option [ngValue]="atleta.id"> {{ atleta.nome }} </option>
+         }
+       </select>
+ 
+@@ -65,4 +65,4 @@
+       <button type="submit" [disabled]="!aceiteTermos"> Finalizar e Ir para Pagamento </button>
+     </form>
+   }
+-</div>
+\ No newline at end of file
++</div>
+diff --git a/src/app/component/inscricao-component/inscricao-component.ts b/src/app/component/inscricao-component/inscricao-component.ts
+index 17ef981..b3d1ad9 100644
+--- a/src/app/component/inscricao-component/inscricao-component.ts
++++ b/src/app/component/inscricao-component/inscricao-component.ts
+@@ -67,10 +67,12 @@ export class InscricaoComponent implements OnInit {
+       return;
+     }
+ 
+-    const encontrado = this.atletas().find(a => a.cpf.replace(/\D/g, '') === cpfLimpo);
++    const encontrado = this.atletas().find(
++      a => String(a.cpf).replace(/\D/g, '') === cpfLimpo
++    );
+ 
+     if (encontrado) {
+-      this.idAtleta = encontrado.idPessoa;
++      this.idAtleta = encontrado.id ?? null;
+     }
+   }
+ 
+@@ -97,4 +99,4 @@ export class InscricaoComponent implements OnInit {
+       this.router.navigate(['/home']);
+     });
+   }
+-}
+\ No newline at end of file
++}
+diff --git a/src/app/models/atletaModel.ts b/src/app/models/atletaModel.ts
+index 982cf2c..8149886 100644
+--- a/src/app/models/atletaModel.ts
++++ b/src/app/models/atletaModel.ts
+@@ -1,12 +1,12 @@
+ export class Pessoa{
+-  idPessoa: number = 0
++  id?: number
+   nome: string = ''
+   sexo: string = ''
+   cpf: string = ''
+-  cep: string = ''
+-  ruaLogradouro: string = ''
++  data_nascimento: string = ''
++  cep: number = 0
++  rua_logradouro: string = ''
+   bairro: string = ''
+   cidade: string = ''
+-  estado: string = ''
+   uf: string = ''
+ }
+diff --git a/src/app/services/atleta-service.ts b/src/app/services/atleta-service.ts
+index 742dc5b..e69edd8 100644
+--- a/src/app/services/atleta-service.ts
++++ b/src/app/services/atleta-service.ts
+@@ -7,30 +7,27 @@ import { Observable } from 'rxjs';
+   providedIn: 'root',
+ })
+ export class AtletaService {
++  private readonly apiUrl = 'http://127.0.0.1:8000/pessoa';
++
+   constructor (private http: HttpClient){ }
+ 
+   adicionar (pessoa: Pessoa): Observable<Pessoa> {
+-    const apiUrl = `https://6a88d25f7b483fa21fe93e0c.mockapi.io/Atleta`
+-    return this.http.post<Pessoa>(apiUrl, pessoa)
++    return this.http.post<Pessoa>(`${this.apiUrl}/`, pessoa)
+   }
+ 
+   ApiList(): Observable<Pessoa[]> {
+-    const apiUrl = `https://6a88d25f7b483fa21fe93e0c.mockapi.io/Atleta`
+-    return this.http.get<Pessoa[]>(apiUrl)
++    return this.http.get<Pessoa[]>(`${this.apiUrl}/`)
+   }
+ 
+-  listar(idPessoa: number): Observable<Pessoa> {
+-    const apiUrl = `https://6a88d25f7b483fa21fe93e0c.mockapi.io/Atleta/${idPessoa}`
+-    return this.http.get<Pessoa>(apiUrl)
++  listar(id: number): Observable<Pessoa> {
++    return this.http.get<Pessoa>(`${this.apiUrl}/${id}`)
+   }
+ 
+   alterar(pessoa : Pessoa): Observable<Pessoa> {
+-    const apiUrl = `https://6a88d25f7b483fa21fe93e0c.mockapi.io/Atleta/${pessoa.idPessoa}`
+-    return this.http.put<Pessoa>(apiUrl, pessoa)
++    return this.http.put<Pessoa>(`${this.apiUrl}/${pessoa.id}`, pessoa)
+   }
+ 
+-  remover(pessoa : Pessoa): Observable<Pessoa>{
+-    const apiUrl = `https://6a88d25f7b483fa21fe93e0c.mockapi.io/Atleta/${pessoa.idPessoa}`
+-    return this.http.delete<Pessoa>(apiUrl)
++  remover(id: number): Observable<void>{
++    return this.http.delete<void>(`${this.apiUrl}/${id}`)
+   }
+ }
+

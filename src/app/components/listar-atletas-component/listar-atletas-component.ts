@@ -48,12 +48,12 @@ export class ListarAtletasComponent implements OnInit {
     return idade;
   }
 
-  removerAtleta(idAtleta?: number) {
-    if (idAtleta === undefined) {
+  removerAtleta(id?: number) {
+    if (id === undefined) {
       return;
     }
 
-    this.atletaService.remover(idAtleta).subscribe(() => {
+    this.atletaService.remover(id).subscribe(() => {
       this.atualizarLista();
     });
   }

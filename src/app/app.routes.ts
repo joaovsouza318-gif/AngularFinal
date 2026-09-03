@@ -10,6 +10,7 @@ export const routes: Routes = [
   {path:'',redirectTo:"/home",pathMatch: 'full'},
   {path:"home", component:HomeComponent},
   {path:"cadastroAtleta", component:AtletaComponent},
+  {path:"cadastroAtleta/:id", component:AtletaComponent},
   {path:"cadastroCorrida", component:CorridasComponent},
   {path:"cadastroCorrida/:id", component:CorridasComponent},
   {path:"listarCorridas", component:ListarCorridasComponent},

@@ -29,6 +29,7 @@ export class InscricaoComponent implements OnInit {
   inscricoes = signal<InscricaoExibicao[]>([]);
   idAtleta: number | null = null;
   idCorrida: number | null = null;
+  modalidade = '';
 
   constructor(
     private atletaService: AtletaService,
@@ -47,20 +48,52 @@ export class InscricaoComponent implements OnInit {
     });
   }
 
+  corridaAlterada() {
+    this.modalidade = '';
+  }
+
+  modalidadesDaCorrida(): string[] {
+    if (this.idCorrida === null) {
+      return [];
+    }
+
+    const corrida = this.corridas()
+      .find((item) => item.idCorrida === this.idCorrida);
+
+    return corrida ? this.parseModalidades(corrida.niveis) : [];
+  }
+
   salvarInscricao() {
-    if (this.idAtleta === null || this.idCorrida === null) {
+    if (
+      this.idAtleta === null ||
+      this.idCorrida === null ||
+      !this.modalidade
+    ) {
       return;
     }
 
     const inscricao = new Inscricao();
     inscricao.idAtleta = this.idAtleta;
     inscricao.idCorrida = this.idCorrida;
+    inscricao.modalidade = this.modalidade;
 
     this.inscricaoService.adicionar(inscricao).subscribe(() => {
       this.idAtleta = null;
       this.idCorrida = null;
+      this.modalidade = '';
       this.atualizarInscricoes();
     });
+  }
+
+  private parseModalidades(niveis: string): string[] {
+    if (!niveis) {
+      return [];
+    }
+
+    return niveis
+      .split(',')
+      .map((item) => item.trim())
+      .filter((item) => item.length > 0);
   }
 
   private atualizarInscricoes() {
@@ -76,12 +109,14 @@ export class InscricaoComponent implements OnInit {
           return [];
         }
 
+        const modalidadesCorrida = this.parseModalidades(corrida.niveis);
+
         return [{
           id: inscricao.idInscricao,
           atleta: atleta.nome,
           corrida: corrida.descricao,
           data: corrida.data,
-          modalidade: corrida.niveis,
+          modalidade: inscricao.modalidade || modalidadesCorrida[0] || '-',
         }];
       });
 

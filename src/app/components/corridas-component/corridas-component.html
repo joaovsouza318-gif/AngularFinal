@@ -9,14 +9,29 @@
     <label for="data">Data: </label>
     <input type="date" id="data" name="data" class="input01" required [(ngModel)]="data">
 
-    <label for="niveis">Modalidade escolhida</label>
-    <input type="radio" name="niveis" id="5" value="5" [(ngModel)]="niveis" required> 5 Km
-    <input type="radio" name="niveis" id="10" value="10" [(ngModel)]="niveis"> 10 Km
-    <input type="radio" name="niveis" id="15" value="15" [(ngModel)]="niveis"> 15 Km
-    <input type="radio" name="niveis" id="21" value="21" [(ngModel)]="niveis"> 21 Km
+    <fieldset class="grupo-modalidades">
+      <legend>Modalidades disponíveis</legend>
+
+      @for (modalidade of modalidadesDisponiveis; track modalidade) {
+        <label>
+          <input
+            type="checkbox"
+            [checked]="modalidadeSelecionada(modalidade)"
+            (change)="alternarModalidade(modalidade, $any($event.target).checked)"
+          >
+          {{ modalidade }} Km
+        </label>
+      }
+    </fieldset>
 
     <div id="div-btns">
-      <button type="submit" id="btnAdd">{{ modoEdicao ? 'Atualizar Corrida' : 'Cadastrar Corrida' }}</button>
+      <button
+        type="submit"
+        id="btnAdd"
+        [disabled]="modalidadesSelecionadas.length === 0"
+      >
+        {{ modoEdicao ? 'Atualizar Corrida' : 'Cadastrar Corrida' }}
+      </button>
       @if (modoEdicao) {
         <button type="button" id="btnCancelar" (click)="cancelarEdicao()">Cancelar</button>
       } @else {

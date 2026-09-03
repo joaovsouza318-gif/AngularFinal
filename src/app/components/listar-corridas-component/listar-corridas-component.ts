@@ -22,6 +22,19 @@ export class ListarCorridasComponent implements OnInit {
     this.atualizarLista();
   }
 
+  formatarModalidades(niveis: string): string {
+    if (!niveis) {
+      return '-';
+    }
+
+    return niveis
+      .split(',')
+      .map((item) => item.trim())
+      .filter((item) => item.length > 0)
+      .map((item) => `${item} Km`)
+      .join(', ');
+  }
+
   editarCorrida(idCorrida: number) {
     this.router.navigate(['/cadastroCorrida', idCorrida]);
   }

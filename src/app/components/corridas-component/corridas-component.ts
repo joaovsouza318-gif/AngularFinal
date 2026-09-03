@@ -15,6 +15,8 @@ export class CorridasComponent implements OnInit {
   descricao = '';
   data = '';
   niveis = '';
+  modalidadesDisponiveis = ['5', '10', '15', '21'];
+  modalidadesSelecionadas: string[] = [];
   modoEdicao = false;
 
   constructor(
@@ -36,21 +38,46 @@ export class CorridasComponent implements OnInit {
         this.descricao = corrida.descricao;
         this.data = this.formatarDataParaInput(corrida.data);
         this.niveis = corrida.niveis;
+        this.modalidadesSelecionadas = this.parseModalidades(corrida.niveis);
 
         // Sem zone.js (app zoneless), o Angular não percebe sozinho essa
         // mudança vinda de um subscribe assíncrono; forçamos a atualização
-        // da tela para os campos do ngModel refletirem os dados carregados.
+        // da tela para os campos refletirem os dados carregados.
         this.cdr.detectChanges();
       });
     }
   }
 
+  modalidadeSelecionada(modalidade: string): boolean {
+    return this.modalidadesSelecionadas.includes(modalidade);
+  }
+
+  alternarModalidade(modalidade: string, selecionada: boolean) {
+    if (selecionada) {
+      if (!this.modalidadesSelecionadas.includes(modalidade)) {
+        this.modalidadesSelecionadas = [...this.modalidadesSelecionadas, modalidade]
+          .sort((a, b) => Number(a) - Number(b));
+      }
+      return;
+    }
+
+    this.modalidadesSelecionadas = this.modalidadesSelecionadas
+      .filter((item) => item !== modalidade);
+  }
+
   salvarCorrida() {
+    if (this.modalidadesSelecionadas.length === 0) {
+      return;
+    }
+
     const corrida = new Corrida();
     corrida.idCorrida = this.idCorrida ?? 0;
     corrida.descricao = this.descricao;
     corrida.data = this.data ? new Date(`${this.data}T00:00:00`) : null;
-    corrida.niveis = this.niveis;
+
+    // O MockAPI já possui o campo "niveis". Para manter compatibilidade,
+    // salvamos as modalidades selecionadas em uma string separada por vírgula.
+    corrida.niveis = this.modalidadesSelecionadas.join(',');
 
     const operacao = this.modoEdicao
       ? this.corridaService.alterar(corrida)
@@ -73,6 +100,18 @@ export class CorridasComponent implements OnInit {
     this.descricao = '';
     this.data = '';
     this.niveis = '';
+    this.modalidadesSelecionadas = [];
+  }
+
+  private parseModalidades(niveis: string): string[] {
+    if (!niveis) {
+      return [];
+    }
+
+    return niveis
+      .split(',')
+      .map((item) => item.trim())
+      .filter((item) => item.length > 0);
   }
 
   private formatarDataParaInput(data: Date | string | null): string {

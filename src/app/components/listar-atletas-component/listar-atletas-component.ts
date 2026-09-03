@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 
 import { Component, OnInit, signal } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { Pessoa } from '../../models/pessoa-model';
 
@@ -15,7 +16,10 @@ import { AtletaService } from '../../services/atleta-service';
 export class ListarAtletasComponent implements OnInit {
   atletas = signal<Pessoa[]>([]);
 
-  constructor(private atletaService: AtletaService) {}
+  constructor(
+    private atletaService: AtletaService,
+    private router: Router,
+  ) {}
 
   ngOnInit() {
     this.atualizarLista();
@@ -46,6 +50,55 @@ export class ListarAtletasComponent implements OnInit {
     }
 
     return idade;
+  }
+
+  calcularImc(atleta: Pessoa): number | null {
+    const peso = Number(atleta.peso);
+    const altura = Number(atleta.altura);
+
+    if (!peso || !altura || peso <= 0 || altura <= 0) {
+      return null;
+    }
+
+    return peso / (altura * altura);
+  }
+
+  situacaoImc(atleta: Pessoa): string {
+    const imc = this.calcularImc(atleta);
+
+    if (imc === null) {
+      return '-';
+    }
+
+    if (imc < 18.5) {
+      return 'Abaixo do peso';
+    }
+
+    if (imc < 25) {
+      return 'Peso normal';
+    }
+
+    if (imc < 30) {
+      return 'Sobrepeso';
+    }
+
+    if (imc < 35) {
+      return 'Obesidade grau I';
+    }
+
+    if (imc < 40) {
+      return 'Obesidade grau II';
+    }
+
+    return 'Obesidade grau III';
+  }
+
+  editarAtleta(id?: number) {
+    if (id === undefined) {
+      return;
+    }
+
+    this.router.navigate(['/cadastroAtleta', id]);
   }
 
   removerAtleta(id?: number) {

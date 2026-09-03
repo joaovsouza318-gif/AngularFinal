@@ -12,6 +12,10 @@
             <th>CPF</th>
             <th>Sexo</th>
             <th>Idade</th>
+            <th>Peso</th>
+            <th>Altura</th>
+            <th>IMC</th>
+            <th>Situação</th>
             <th>Cidade</th>
             <th>UF</th>
             <th>Ação</th>
@@ -45,18 +49,47 @@
                 {{ calcularIdade(atleta.data_nascimento) }} anos
               </td>
 
+              <td>{{ atleta.peso ?? '-' }} kg</td>
+
+              <td>
+                @if (atleta.altura) {
+                  {{ atleta.altura | number: '1.2-2' }} m
+                } @else {
+                  -
+                }
+              </td>
+
+              <td>
+                @if (calcularImc(atleta); as imc) {
+                  {{ imc | number: '1.1-1' }}
+                } @else {
+                  -
+                }
+              </td>
+
+              <td>{{ situacaoImc(atleta) }}</td>
+
               <td>{{ atleta.cidade }}</td>
 
               <td>{{ atleta.uf }}</td>
 
               <td>
-                <button
-                  type="button"
-                  class="btn-remover"
-                  (click)="removerAtleta(atleta.id)"
-                >
-                  Remover
-                </button>
+                <div class="acoes">
+                  <button
+                    type="button"
+                    class="btn-editar"
+                    (click)="editarAtleta(atleta.id)"
+                  >
+                    Editar
+                  </button>
+                  <button
+                    type="button"
+                    class="btn-remover"
+                    (click)="removerAtleta(atleta.id)"
+                  >
+                    Remover
+                  </button>
+                </div>
               </td>
             </tr>
           }

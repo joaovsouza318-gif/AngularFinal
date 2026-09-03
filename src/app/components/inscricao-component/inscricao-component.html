@@ -14,14 +14,39 @@
       </select>
 
       <label for="corrida">Corrida</label>
-      <select id="corrida" name="corrida" [(ngModel)]="idCorrida" required>
+      <select
+        id="corrida"
+        name="corrida"
+        [(ngModel)]="idCorrida"
+        (ngModelChange)="corridaAlterada()"
+        required
+      >
         <option [ngValue]="null" disabled>Selecione uma corrida</option>
         @for (corrida of corridas(); track corrida.idCorrida) {
-          <option [ngValue]="corrida.idCorrida">{{ corrida.descricao }} — {{ corrida.niveis }} Km</option>
+          <option [ngValue]="corrida.idCorrida">{{ corrida.descricao }}</option>
         }
       </select>
 
-      <button type="submit">Realizar inscrição</button>
+      <label for="modalidade">Modalidade</label>
+      <select
+        id="modalidade"
+        name="modalidade"
+        [(ngModel)]="modalidade"
+        [disabled]="idCorrida === null"
+        required
+      >
+        <option value="" disabled>Selecione uma modalidade</option>
+        @for (nivel of modalidadesDaCorrida(); track nivel) {
+          <option [value]="nivel">{{ nivel }} Km</option>
+        }
+      </select>
+
+      <button
+        type="submit"
+        [disabled]="idAtleta === null || idCorrida === null || !modalidade"
+      >
+        Realizar inscrição
+      </button>
     </form>
   }
 
